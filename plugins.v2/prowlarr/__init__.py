@@ -24,7 +24,7 @@ class Prowlarr(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico"
     # 插件版本
-    plugin_version = "1.3"
+    plugin_version = "1.4"
     # 插件作者
     plugin_author = "TDHXNP"
     # 作者主页
@@ -423,8 +423,8 @@ class Prowlarr(_PluginBase):
                     logger.info(f"【{self.plugin_name}】跳过未选择的索引器: {indexer.get('name')}")
                     continue
                 
-                domain = f"{self._host}/api/v1/indexer/{indexer_id}"
-                domain = StringUtils.get_url_domain(domain)
+                domain = f"{StringUtils.get_url_domain(self._host)}/api/v1/indexer/{indexer_id}"
+                #domain = StringUtils.get_url_domain(domain)
                 
                 # 检查是否已经添加过
                 if indexer_id in self._added_indexers:
