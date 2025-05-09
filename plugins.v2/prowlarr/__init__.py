@@ -417,7 +417,7 @@ class Prowlarr(_PluginBase):
             # 添加索引器
             for indexer in indexers:
                 indexer_id = indexer.get("id")
-                indexer_name = prowlarr_indexer.get("name", "")
+                indexer_name = indexer.get("name", "")
                 if not indexer_id:
                     continue
                     
