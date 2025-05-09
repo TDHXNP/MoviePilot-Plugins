@@ -24,7 +24,7 @@ class Prowlarr(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico"
     # 插件版本
-    plugin_version = "1.6"
+    plugin_version = "1.8"
     # 插件作者
     plugin_author = "TDHXNP"
     # 作者主页
@@ -267,18 +267,10 @@ class Prowlarr(_PluginBase):
                 "search": {
                     "paths": [
                         {
-                            "path": f"api/v1/indexer/{indexer_id}/newznab",
+                            "path": f"api/v1/indexer/{indexer_id}/newznab?t=search&extended=1&limit=100&apikey=7bbe709363cc489ea8671ee3183741a1&q={keyword}&cat={cat}",
                             "method": "get"
                         }
-                    ],
-                    "params": {
-                        "t": "search",
-                        "q": "{keyword}",
-                        "cat": "{cat}",
-                        "apikey": self._api_key,
-                        "limit": 100,
-                        "extended": 1
-                    }
+                    ]
                 },
                 "torrents": {
                     "list": {
