@@ -23,7 +23,7 @@ class Prowlarr(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico"
     # 插件版本
-    plugin_version = "1.0"
+    plugin_version = "1.1"
     # 插件作者
     plugin_author = "TDHXNP"
     # 作者主页
@@ -159,14 +159,14 @@ class Prowlarr(_PluginBase):
         """
         return [
             {
-                "path": "/Prowlarr/indexers",
+                "path": "/indexers",
                 "endpoint": self.get_indexers,
                 "methods": ["GET"],
                 "summary": "获取Prowlarr索引器列表",
                 "description": "获取已配置的Prowlarr索引器列表"
             },
             {
-                "path": "/Prowlarr/reload",
+                "path": "/reload",
                 "endpoint": self.reload_indexers,
                 "methods": ["GET"],
                 "summary": "重新加载Prowlarr索引器",
@@ -255,7 +255,7 @@ class Prowlarr(_PluginBase):
             
             # 使用符合MoviePilot V2要求的索引器格式
             mp_indexer = {
-                "id": f"prowlarr_{indexer_id.lower()}",
+                "id": f"prowlarr_{indexer_name.lower()}",
                 "name": f"[Prowlarr] {indexer_name}",
                 "domain": base_url,
                 "encoding": "UTF-8",
@@ -422,7 +422,7 @@ class Prowlarr(_PluginBase):
                     logger.info(f"【{self.plugin_name}】跳过未选择的索引器: {indexer.get('name')}")
                     continue
                 
-                domain = f"prowlarr_{indexer_id.lower()}"
+                domain = f"{self._host}/api/v1/indexer/{indexer_id}"
                 
                 # 检查是否已经添加过
                 if domain in self._added_indexers:
@@ -438,7 +438,7 @@ class Prowlarr(_PluginBase):
                     # 添加到MoviePilot
                     self.siteshelper.add_indexer(domain=domain, indexer=mp_indexer)
                     self._added_indexers.append(domain)
-                    logger.info(f"【{self.plugin_name}】成功添加索引器: {indexer.get('name')}")
+                    logger.info(f"【{self.plugin_name}】成功添加索引器: {indexer.get('name')} : {domain}")
                 except Exception as e:
                     logger.info(f"【{self.plugin_name}】添加索引器失败: {indexer.get('name')} - {str(e)}")
             

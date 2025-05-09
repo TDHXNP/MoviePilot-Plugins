@@ -2,7 +2,7 @@
     "Prowlarr": {
         "name": "Prowlarr",
         "description": "支持 Prowlarr 搜索器，将Prowlarr索引器添加到MoviePilot V2内建搜索器中。",
-        "version": "1.0",
+        "version": "1.1",
         "icon": "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico",
         "author": "TDHXNP",
         "level": 1,
@@ -14,6 +14,7 @@
         "version": ">=2.0.0"
         },
         "history": {
+            "1.1": "Bug 修复",
             "1.0": "完成基础功能，支持Prowlarr索引器导入"
         }
   }
