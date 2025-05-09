@@ -24,7 +24,7 @@ class Prowlarr(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico"
     # 插件版本
-    plugin_version = "1.2"
+    plugin_version = "1.3"
     # 插件作者
     plugin_author = "TDHXNP"
     # 作者主页
@@ -427,7 +427,7 @@ class Prowlarr(_PluginBase):
                 domain = StringUtils.get_url_domain(domain)
                 
                 # 检查是否已经添加过
-                if domain in self._added_indexers:
+                if indexer_id in self._added_indexers:
                     logger.info(f"【{self.plugin_name}】索引器已存在，跳过: {indexer.get('name')}")
                     continue
                 
@@ -439,7 +439,7 @@ class Prowlarr(_PluginBase):
                 try:
                     # 添加到MoviePilot
                     self.siteshelper.add_indexer(domain=domain, indexer=mp_indexer)
-                    self._added_indexers.append(domain)
+                    self._added_indexers.append(indexer_id)
                     logger.info(f"【{self.plugin_name}】成功添加索引器: {indexer.get('name')} : {domain}")
                     site_info = SitesHelper().get_indexer(domain)
                     logger.info(f"【{self.plugin_name}】索引器信息: {site_info}")
