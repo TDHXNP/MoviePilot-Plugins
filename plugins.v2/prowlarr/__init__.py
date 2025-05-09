@@ -24,7 +24,7 @@ class Prowlarr(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico"
     # 插件版本
-    plugin_version = "1.4"
+    plugin_version = "1.5"
     # 插件作者
     plugin_author = "TDHXNP"
     # 作者主页
@@ -227,7 +227,7 @@ class Prowlarr(_PluginBase):
             # 从Prowlarr API返回的数据中提取必要信息
             indexer_id = prowlarr_indexer.get("id", "")
             indexer_name = prowlarr_indexer.get("name", "")
-            base_url = f"{self._host}/api/v1/indexer/{indexer_id}"
+            base_url = f"{self._host}"
             
             # 构建分类信息
             categories = {
@@ -258,7 +258,8 @@ class Prowlarr(_PluginBase):
             mp_indexer = {
                 "id": f"prowlarr_{indexer_name.lower()}",
                 "name": f"[Prowlarr] {indexer_name}",
-                "domain": base_url,
+                "domain": f"prowlarr_{indexer_name.lower()}",
+                "ext_domains": [base_url]
                 "encoding": "UTF-8",
                 "public": prowlarr_indexer.get("privacy") == "public",
                 "proxy": False,
@@ -266,7 +267,7 @@ class Prowlarr(_PluginBase):
                 "search": {
                     "paths": [
                         {
-                            "path": "/newznab",
+                            "path": f"/api/v1/indexer/{indexer_id}/newznab",
                             "method": "get"
                         }
                     ],
@@ -416,6 +417,7 @@ class Prowlarr(_PluginBase):
             # 添加索引器
             for indexer in indexers:
                 indexer_id = indexer.get("id")
+                indexer_name = prowlarr_indexer.get("name", "")
                 if not indexer_id:
                     continue
                     
@@ -423,11 +425,11 @@ class Prowlarr(_PluginBase):
                     logger.info(f"【{self.plugin_name}】跳过未选择的索引器: {indexer.get('name')}")
                     continue
                 
-                domain = f"{StringUtils.get_url_domain(self._host)}/api/v1/indexer/{indexer_id}"
+                domain = f"prowlarr_{indexer_name.lower()}"
                 #domain = StringUtils.get_url_domain(domain)
                 
                 # 检查是否已经添加过
-                if indexer_id in self._added_indexers:
+                if domain in self._added_indexers:
                     logger.info(f"【{self.plugin_name}】索引器已存在，跳过: {indexer.get('name')}")
                     continue
                 
@@ -439,7 +441,7 @@ class Prowlarr(_PluginBase):
                 try:
                     # 添加到MoviePilot
                     self.siteshelper.add_indexer(domain=domain, indexer=mp_indexer)
-                    self._added_indexers.append(indexer_id)
+                    self._added_indexers.append(domain)
                     logger.info(f"【{self.plugin_name}】成功添加索引器: {indexer.get('name')} : {domain}")
                     site_info = SitesHelper().get_indexer(domain)
                     logger.info(f"【{self.plugin_name}】索引器信息: {site_info}")
