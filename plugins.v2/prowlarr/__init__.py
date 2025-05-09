@@ -259,7 +259,7 @@ class Prowlarr(_PluginBase):
                 "id": f"prowlarr_{indexer_name.lower()}",
                 "name": f"[Prowlarr] {indexer_name}",
                 "domain": f"prowlarr_{indexer_name.lower()}",
-                "ext_domains": [base_url]
+                "ext_domains": [base_url],
                 "encoding": "UTF-8",
                 "public": prowlarr_indexer.get("privacy") == "public",
                 "proxy": False,
