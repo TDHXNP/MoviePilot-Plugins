@@ -11,6 +11,7 @@ from app.helper.sites import SitesHelper
 from app.log import logger
 from app.plugins import _PluginBase
 from app.utils.http import RequestUtils
+from app.utils.string import StringUtils
 
 class Prowlarr(_PluginBase):
     """
@@ -23,7 +24,7 @@ class Prowlarr(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/refs/heads/develop/src/Prowlarr.ico"
     # 插件版本
-    plugin_version = "1.1"
+    plugin_version = "1.2"
     # 插件作者
     plugin_author = "TDHXNP"
     # 作者主页
@@ -423,6 +424,7 @@ class Prowlarr(_PluginBase):
                     continue
                 
                 domain = f"{self._host}/api/v1/indexer/{indexer_id}"
+                domain = StringUtils.get_url_domain(domain)
                 
                 # 检查是否已经添加过
                 if domain in self._added_indexers:
@@ -439,6 +441,8 @@ class Prowlarr(_PluginBase):
                     self.siteshelper.add_indexer(domain=domain, indexer=mp_indexer)
                     self._added_indexers.append(domain)
                     logger.info(f"【{self.plugin_name}】成功添加索引器: {indexer.get('name')} : {domain}")
+                    site_info = SitesHelper().get_indexer(domain)
+                    logger.info(f"【{self.plugin_name}】索引器信息: {site_info}")
                 except Exception as e:
                     logger.info(f"【{self.plugin_name}】添加索引器失败: {indexer.get('name')} - {str(e)}")
             
