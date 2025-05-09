@@ -267,7 +267,7 @@ class Prowlarr(_PluginBase):
                 "search": {
                     "paths": [
                         {
-                            "path": f"/api/v1/indexer/{indexer_id}/newznab",
+                            "path": f"api/v1/indexer/{indexer_id}/newznab",
                             "method": "get"
                         }
                     ],
